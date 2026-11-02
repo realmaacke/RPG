@@ -1,0 +1,94 @@
+
+<rml>
+  <head>
+    <link type="text/rcss" href="menu.rcss"/>
+  </head>
+
+  <body>
+    <div class="menu-container">
+      <!-- Main login area -->
+      <div class="menu-main">
+
+        <!-- Placeholder for your future logo -->
+        <div class="menu-brand">
+          <h1>Game Title</h1>
+        </div>
+
+        <!-- Login panel -->
+        <div class="menu-login">
+
+          <form id="menu-form" class="menu-form">
+
+            <label class="menu-form-label" for="username">
+              Username
+            </label>
+
+            <input
+              class="menu-form-input"
+              id="username"
+              type="text"
+            />
+
+            <label class="menu-form-label" for="password">
+              Password
+            </label>
+
+            <input
+              class="menu-form-input"
+              id="password"
+              type="password"
+            />
+
+            <button class="login-button" id="connect">
+              Connect
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Bottom left navigation -->
+      <div class="menu-side menu-left">
+      </div>
+
+      <!-- Bottom right navigation -->
+      <div class="menu-side menu-right">
+        <button id="options">Options</button>
+        <button id="create-account">Create Account</button>
+        <button id="my-account">My Account</button>
+        <button id="official-site">Official Site</button>
+        <button id="quit">Quit game</button>
+      </div>
+
+      <!-- Footer -->
+      <div class="menu-footer">
+        <span>Version 1.0</span>
+      </div>
+    </div>
+
+
+    <!-- Connecting / queue popup -->
+    <div id="queue-overlay" class="queue-overlay hidden">
+
+        <div id="queue-popup" class="queue-popup">
+
+            <div class="queue-popup-inner">
+
+                <h2 id="queue-title">Server is full</h2>
+
+                <div id="queue-position" class="queue-info"></div>
+
+                <div id="queue-eta" class="queue-info"></div>
+
+                <button id="diconeect-from-queue" class="queue-button">
+                  Disconnect from que
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+  </body>
+</rml>

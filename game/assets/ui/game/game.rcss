@@ -1,0 +1,25 @@
+body { 
+    font-family: Open Sans;
+    font-size: 24dp;
+    font-weight: 500;
+    color: white;
+}
+
+button {
+    background-color: #3a3a3a;
+    padding: 8dp;
+    margin: 4dp;
+}
+
+button:hover {
+    background-color: #505050;
+}
+
+button.pressed {
+    background-color: #2a6a2a;
+}
+
+#status {
+    margin-top: 12dp;
+    color: #cccccc;
+}

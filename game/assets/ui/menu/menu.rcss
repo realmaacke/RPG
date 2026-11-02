@@ -1,0 +1,359 @@
+
+body {
+    width: 100%;
+    height: 100%;
+
+    font-family: Open Sans;
+    font-size: 14dp;
+    font-weight: 500;
+    color: #e8d49a;
+
+    decorator: image(bg.png);
+}
+
+/* Main container */
+
+.menu-container {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+/* Centered content */
+
+.menu-main {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 12dp;
+
+    margin-bottom: 100dp;
+}
+
+/* Logo placeholder */
+
+.menu-brand {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: transparent;
+
+    padding: 10dp;
+}
+
+.menu-brand h1 {
+    color: #e8bd4d;
+
+    font-size: 42dp;
+    font-weight: 700;
+
+    text-align: center;
+}
+
+/* Login panel */
+
+.menu-login {
+    width: 340dp;
+
+    padding: 22dp;
+
+    background-color: #191714;
+
+    border: 2dp solid #80602b;
+    border-radius: 7dp;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Form */
+
+.menu-form {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    /* align-items: center; */
+
+    gap: 10dp;
+}
+
+/* Labels */
+
+.menu-form-label {
+    color: #e9bd36;
+
+    font-size: 16dp;
+    font-weight: 700;
+
+    margin-top: 6dp;
+}
+
+/* Inputs */
+
+.menu-form-input {
+    width: 90%;
+    /* height: 38dp; */
+
+    padding: 18px;
+
+    background-color: #090909;
+
+    border: 2dp solid #62594d;
+    border-radius: 4dp;
+
+    color: white;
+
+    font-size: 14dp;
+}
+
+
+/* General buttons */
+
+button {
+    color: #f4d66d;
+
+    background-color: #54100a;
+
+    border: 2dp solid #89632e;
+    border-radius: 5dp;
+
+    padding: 8dp;
+
+    font-size: 14dp;
+    font-weight: 700;
+}
+
+button:hover {
+    background-color: #812018;
+    border-color: #d5aa50;
+}
+
+button.pressed {
+    background-color: #310704;
+}
+
+/* Login button */
+
+.login-button {
+    width: 95%;
+    /* height: 44dp; */
+
+    text-align: center;
+
+    margin-top: 10dp;
+
+    background-color: #790e08;
+
+    border: 2dp solid #b58b3c;
+
+    font-size: 19dp;
+}
+
+.login-button:hover {
+    background-color: #a51d10;
+}
+
+/* Remember account */
+
+#status {
+    margin-top: 4dp;
+
+    color: #c5a75c;
+
+    font-size: 12dp;
+}
+
+/* Side navigation */
+
+.menu-side {
+    position: absolute;
+
+    bottom: 55dp;
+
+    width: 155dp;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 6dp;
+}
+
+.menu-side button {
+    width: 100%;
+    height: 38dp;
+
+    text-align: left;
+}
+
+.menu-left {
+    left: 2%;
+}
+
+.menu-right {
+    right: 2%;
+}
+
+/* Footer */
+
+.menu-footer {
+    position: absolute;
+
+    bottom: 8dp;
+
+    left: 2%;
+    right: 2%;
+
+    display: flex;
+    justify-content: space-between;
+
+    color: #d6b64c;
+
+    font-size: 22dp;
+}
+
+
+
+
+/* =================================
+   QUEUE OVERLAY
+================================= */
+
+.queue-overlay {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(0, 0, 0, 0.55);
+}
+
+/* Hidden state */
+
+.hidden {
+    display: none;
+}
+
+/* =================================
+   QUEUE POPUP FRAME
+================================= */
+
+.queue-popup {
+    width: 520dp;
+
+    padding: 5dp;
+
+    background-color: #171411;
+
+    border: 3dp solid #806c4d;
+    border-radius: 5dp;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+}
+
+/* Inner stone panel */
+
+.queue-popup-inner {
+    width: 100%;
+
+    padding: 12dp 20dp 16dp 20dp;
+
+    background-color: #282019;
+
+    border: 1dp solid #51402c;
+
+    display: flex;
+
+    flex-direction: column;
+    align-items: center;
+
+    gap: 3dp;
+}
+
+/* =================================
+   QUEUE TEXT
+================================= */
+
+#queue-title {
+    color: #f3cc54;
+
+    font-size: 23dp;
+    font-weight: 700;
+
+    text-align: center;
+
+    margin-bottom: 3dp;
+
+    text-shadow: 2dp 2dp 3dp #000000;
+}
+
+.queue-info {
+    color: #e9c54d;
+
+    font-size: 20dp;
+    font-weight: 600;
+
+    text-align: center;
+
+    text-shadow: 2dp 2dp 3dp #000000;
+}
+
+/* =================================
+   CHANGE REALM BUTTON
+================================= */
+
+.queue-button {
+    width: 205dp;
+    height: 38dp;
+
+    margin-top: 12dp;
+
+    background-color: #650d08;
+
+    border: 3dp solid #98713a;
+    border-radius: 7dp;
+
+    color: #f4d45b;
+
+    font-size: 17dp;
+    font-weight: 700;
+
+    text-align: center;
+
+    text-shadow: 2dp 2dp 3dp #000000;
+}
+
+.queue-button:hover {
+    background-color: #951a10;
+
+    border-color: #e0b94f;
+}
+
+.queue-button.pressed {
+    background-color: #380704;
+}

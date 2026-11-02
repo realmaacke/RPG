@@ -1,0 +1,8 @@
+<rml>
+  <head>
+    <link type="text/rcss" href="game.rcss"/>
+  </head>
+  <body>
+    <div id="game1">Game</div>
+  </body>
+</rml>

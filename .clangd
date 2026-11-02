@@ -1,0 +1,10 @@
+If:
+  PathMatch: game/.*
+CompileFlags:
+  CompilationDatabase: game/builddir
+
+---
+If:
+  PathMatch: server/.*
+CompileFlags:
+  CompilationDatabase: server/builddir

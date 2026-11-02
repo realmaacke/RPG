@@ -1,0 +1,7 @@
+.vscode
+
+server/builddir/
+game/builddir/
+
+game/subprojects/**/
+server/subprojects/**/
