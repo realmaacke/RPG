@@ -1,11 +1,10 @@
+#include "Server.hpp"
+#include "src/Data/User.hpp"
+#include "src/Output/Output.hpp" 
 #include <cstdlib>
 #include <enet/enet.h>
 #include <string>
 #include <vector>
-#include "Server.hpp"
-#include "enet/types.h"
-#include "src/Data/User.hpp"
-#include "src/Output/Output.hpp"
 
 bool Server::init() {
     if (enet_initialize() != 0){
@@ -14,7 +13,7 @@ bool Server::init() {
     }
 
     this->address.host = ENET_HOST_ANY;
-    this->address.port = 7777; // change
+    this->address.port = 7777;
 
     this->serv = enet_host_create(
         &this->address,
@@ -28,96 +27,65 @@ bool Server::init() {
         Output::error("Could not create ENet server");
         return false;
     }
+    Output::print("Server started");
     return true;
 }
 
-std::vector<UserData::UserConnect> dummyDB = {
-    {"marcus", "password"}
-};
-
-std::vector<UserData::User> account = {
-    {
-        "marcus", 
-        std::vector<UserData::Characters>{ 
-            {
-                "darkmark",
-                10,
-            },
-            {
-                "lightbringer",
-                10
-            }
-        }
-    }
-};
-
-
-void Server::onEvent() {
+void Server::runServer() {
     ENetEvent event;
 
-    while (enet_host_service(this->serv, &event, this->EVENT_TIMEOUT) > 0) {
-        switch (event.type) {
-            case ENET_EVENT_TYPE_CONNECT: {
-                Output::print(
-                    "Client connected: " + std::to_string(event.peer->address.host)
-                );
+    while (this->getState()) {
+        int status = enet_host_service(this->serv, &event, this->EVENT_TIMEOUT);
 
-                UserData::UserConnect* connectionData
-                    = static_cast<UserData::UserConnect*>(event.peer->data);
-                bool isConnected = false;
+        if (status > 0) {
+            this->onEvent(event);
 
-
-                // replace all this with actual logic.
-                for (const UserData::UserConnect& db : dummyDB) {
-                    if (connectionData->username == db.username && connectionData->password == db.password) {
-                        isConnected = true;
-                    }
-                }
-
-                if (!isConnected) {
-                    enet_peer_disconnect(event.peer, 1);
-                    enet_packet_destroy(event.packet);
-                    break;
-                }
-
-                UserData::User* user;
-
-                for (UserData::User& acc : account) {
-                    if (connectionData->username == acc.username) {
-                        user = &acc;
-                    }
-                }
-
-                event.peer->data = user;
-                
-                enet_packet_destroy(event.packet);
-                break;
+            while (enet_host_check_events(this->serv, &event) > 0) {
+                this->onEvent(event);
             }
-            case ENET_EVENT_TYPE_DISCONNECT: {
-                Output::print("Disconnected user");
-                event.peer->data = NULL;
-                break;
-            }
-            case ENET_EVENT_TYPE_RECEIVE: {
-                printf ("A packet of length %u containing %s was received from %s on channel %u.\n",
-                        event.packet -> dataLength,
-                        event.packet -> data,
-                        event.peer -> data,
-                        event.channelID);
-        
-                /* Clean up the packet now that we're done using it. */
-                enet_packet_destroy (event.packet);
-            }
-            case ENET_EVENT_TYPE_NONE: {
-            }
+        } else if (status < 0) {
+            Output::error("ENet error within the loop");
         }
     }
     this->cleanup();
-    return;
 }
 
+void Server::onEvent(ENetEvent& event) {
+    // Process the event directly — DO NOT call enet_host_service here
+    switch (event.type) {
+        case ENET_EVENT_TYPE_CONNECT: {
+            Output::print(
+                "Client connected: " + std::to_string(event.peer->address.host)
+            );
+            break;
+        }
+        case ENET_EVENT_TYPE_DISCONNECT: {
+            Output::print("Disconnected user");
+            event.peer->data = NULL;
+            break;
+        }
+        case ENET_EVENT_TYPE_RECEIVE: {
+            printf("A packet of length %zu containing '%s' was received on channel %u.\n",
+                event.packet->dataLength,
+                reinterpret_cast<char*>(event.packet->data),
+                event.channelID);
+
+            enet_packet_destroy(event.packet);
+            break; // Added missing break
+        }
+        case ENET_EVENT_TYPE_NONE: {
+            break;
+        }
+    }
+}
+
+bool Server::getState() { return this->state; }
+void Server::setState(bool state) { this->state = state; }
 
 void Server::cleanup() {
-    enet_deinitialize();
-    enet_host_destroy(this->serv);
+    if (this->serv != nullptr) {
+        enet_host_destroy(this->serv);
+        this->serv = nullptr;
+    }
+    enet_deinitialize(); // Deinit AFTER host is destroyed
 }

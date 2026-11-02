@@ -6,10 +6,17 @@
 class Server {
 public:
     bool init();
-    void onEvent();
+
+    void runServer();
+    void onEvent(ENetEvent& event);
 
     void cleanup();
+
+    bool getState();
+    void setState(bool state);
 private:
+    bool state = true;
+
     ENetAddress address;
     ENetHost* serv;
 

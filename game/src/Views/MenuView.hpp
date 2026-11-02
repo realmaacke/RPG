@@ -8,7 +8,10 @@ class MenuView : public ExtendableLayer {
 public:
     using ExtendableLayer::ExtendableLayer;
 
+    void init(SDL_Window *window, SDL_Renderer *renderer) override;
     void update() override;
+
+    void registerListeners();
     
 protected:
     void onClick(const std::string& id, Rml::Element& element) override;

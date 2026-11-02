@@ -1,60 +1,15 @@
-#include "ActionEvent.hpp"
-#include "SDL3/SDL_keyboard.h"
-#include "SDL3/SDL_scancode.h"
-#include "src/Output/Output.hpp"
 #include <fstream>
 #include <set>
 #include <sstream>
 #include <string>
 #include <vector>
 
-#include "../NetClient/NetClient.hpp"
+#include "SDL3/SDL_keyboard.h"
+#include "SDL3/SDL_scancode.h"
+#include "src/Output/Output.hpp"
 
-struct PredefinedPrefix {
-    const char* prefix;
-    void (*fn)(const std::string&);
-};
-
-struct PreDefinedAction {
-    const char* name;
-    void (*fn)();
-};
-
-static const PreDefinedAction predefinedActions[] = {
-{"quit_game",[]() {
-            ActionEvent& a = ActionEvent::get();
-            if (!a.game) return;
-            a.game->quit();
-    }},
-{"start_game",[](){
-        ActionEvent& a = ActionEvent::get();
-        if (!a.layer) return;
-        a.layer->disableLayer("MenuView");
-        a.layer->enableLayer("GameView");
-    }},
-{"connect_server", []() {
-        ActionEvent& a = ActionEvent::get();
-        // if (a.net) a.net->connect("127.0.0.1", 7777);
-    }},
-{"net_disconnect", [](){
-        ActionEvent& a = ActionEvent::get();
-        if (!a.layer) return;
-        // if (!a.net) return;
-        // a.net->disconnect();
-        a.layer->disableLayer("GameView");
-        a.layer->enableLayer("MenuView");
-    }},
-{"net_admitted", [](){
-        ActionEvent::get().run("start_game");
-    }},
-};
-
-static const PredefinedPrefix predefinedPrefixes[] = {
-    {"display_", [](const std::string& layer) {
-        ActionEvent& a = ActionEvent::get();
-        if (a.layer) a.layer->toggleLayer(layer);
-    }},
-};
+#include "DefinedActions.hpp"
+#include "ActionEvent.hpp"
 
 ActionEvent& ActionEvent::get() {
     static ActionEvent instance;
@@ -223,14 +178,14 @@ void ActionEvent::run(const std::string& action) {
         return;
     }
 
-    for (const PreDefinedAction& entry : predefinedActions) {
+    for (const ActionStructs::Normal& entry : predefinedActions) {
         if (action == entry.name) {
             entry.fn();
             return;
         }
     }
 
-    for (const PredefinedPrefix& entry : predefinedPrefixes) {
+    for (const ActionStructs::Prefix& entry : predefinedPrefixes) {
         const std::string prefix = entry.prefix;
         if (action.rfind(prefix, 0) == 0) {
             entry.fn(action.substr(prefix.size()));
@@ -244,4 +199,14 @@ void ActionEvent::run(const std::string& action) {
             return;
         }
     }
+}
+
+bool ActionEvent::runPredefinedWithPayload(const std::string& action, const std::any& payload) {
+    for (const ActionStructs::Payload& entry : predefinedActionWithPayload) {
+        if (action == entry.name) {
+            entry.fn(payload);
+            return true;
+        }
+    }
+    return false;
 }

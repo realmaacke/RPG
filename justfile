@@ -8,11 +8,14 @@ setup service='all':
     SERVICE="{{ service }}"
 
     if [[ "$SERVICE" == "all" ]]; then
+        just clean
         (cd game && meson setup builddir --backend=ninja)
         (cd server && meson setup builddir --backend=ninja)
     elif [[ "$SERVICE" == "game" ]]; then
+        just clean game
         (cd game && meson setup builddir --backend=ninja)
     elif [[ "$SERVICE" == "server" ]]; then
+        just clean server
         (cd server && meson setup builddir --backend=ninja)
     else
         echo "Unknown service: $SERVICE"
@@ -64,3 +67,16 @@ clean service='all':
     if [[ "$SERVICE" == "all" || "$SERVICE" == "server" ]]; then
         rm -rf server/builddir
     fi
+
+
+build_dir := "builddir"
+sdl_dir := "subprojects/SDL3_image-3.2.4"
+
+patch-sdl-image:
+    @if ! grep -q "'IMG.c'" {{sdl_dir}}/src/meson.build; then \
+        sed -i "/^img_src = files(/a\\  'IMG.c'," {{sdl_dir}}/src/meson.build; \
+    fi
+    ninja -C {{build_dir}}
+    @sed -n '1,4p' {{sdl_dir}}/src/meson.build
+    @echo -n "IMG_Load symbol count: "
+    @nm -D --defined-only {{build_dir}}/{{sdl_dir}}/libsdl3_image.so | grep -c IMG_Load

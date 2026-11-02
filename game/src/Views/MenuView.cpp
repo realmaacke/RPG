@@ -1,32 +1,47 @@
-#include "MenuView.hpp"
-#include "RmlUi/Core/Element.h"
-#include "SDL3/SDL_events.h"
-#include "SDL3/SDL_render.h"
-#include "SDL3/SDL_video.h"
-#include "src/ActionEvent/ActionEvent.hpp"
-#include "src/Layer/ExtendableLayer.hpp"
-#include "src/NetClient/NetClient.hpp"
-#include "src/Output/Output.hpp"
 #include <functional>
 #include <unordered_map>
 
-static std::string formatTime(unsigned int seconds) {
-    const unsigned int minutes = seconds / 60;
-    const unsigned int rest = seconds % 60;
-    return std::to_string(minutes) + ":" + (rest < 10 ? "0" : "") + std::to_string(rest);
-}
+#include "RmlUi/Core/Element.h"
 
-struct MenuOptions {
-    std::string name;
-    std::function<void()> fn;
-};
+#include "MenuView.hpp"
+#include "src/ActionEvent/ActionEvent.hpp"
+#include "src/ActionEvent/DefinedActions.hpp"
+#include "src/Layer/ExtendableLayer.hpp"
+#include "src/Output/Output.hpp"
+
+#include "src/Utility.hpp"
+
+void MenuView::init(SDL_Window *window, SDL_Renderer *renderer) {
+    ExtendableLayer::init(window, renderer);
+
+    this->registerListeners();
+}
 
 void MenuView::update() {
     this->refreshQueuePopup();
     ExtendableLayer::update();
 }
 
+void MenuView::registerListeners() {
+    if (element("menu-form")) {
+        BindEvent(element("menu-form"), Rml::EventId::Submit, [](Rml::Event& event) {
+            Rml::String user = event.GetParameter<Rml::String>("username", "");
+            Rml::String pass = event.GetParameter<Rml::String>("password", "");
 
+            if (user.empty() || pass.empty()) return;
+
+            PacketLogin loginPacket{};
+            std::strncpy(loginPacket.username, user.c_str(), sizeof(loginPacket.username) - 1);
+            std::strncpy(loginPacket.password, pass.c_str(), sizeof(loginPacket.password) - 1);
+
+            ActionEvent::get().run("connect_server", loginPacket);
+        });
+    }
+}
+
+void MenuView::refreshQueuePopup() {
+
+}
 
 void MenuView::onClick(const std::string& id, Rml::Element& pressedElement) {
     if (!this->isVissible) return;

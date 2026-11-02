@@ -32,7 +32,7 @@ int Game::init() {
         return 1;
     }
 
-    if (!this->m_net.init()) {
+    if (this->m_net.init() != 0) {
         Output::error("Failed to start ENet");
         SDL_Quit();
         return 1;

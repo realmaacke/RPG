@@ -1,7 +1,7 @@
-
 <rml>
+
   <head>
-    <link type="text/rcss" href="menu.rcss"/>
+    <link type="text/rcss" href="menu.rcss" />
   </head>
 
   <body>
@@ -22,26 +22,15 @@
             <label class="menu-form-label" for="username">
               Username
             </label>
-
-            <input
-              class="menu-form-input"
-              id="username"
-              type="text"
-            />
+            <input class="menu-form-input" id="username" type="text" name="username" />
 
             <label class="menu-form-label" for="password">
               Password
             </label>
+            <input class="menu-form-input" id="password" type="password" name="password" />
 
-            <input
-              class="menu-form-input"
-              id="password"
-              type="password"
-            />
 
-            <button class="login-button" id="connect">
-              Connect
-            </button>
+            <input class="login-button" id="connect" type="submit" value="Connect" />
           </form>
         </div>
       </div>
@@ -69,23 +58,23 @@
     <!-- Connecting / queue popup -->
     <div id="queue-overlay" class="queue-overlay hidden">
 
-        <div id="queue-popup" class="queue-popup">
+      <div id="queue-popup" class="queue-popup">
 
-            <div class="queue-popup-inner">
+        <div class="queue-popup-inner">
 
-                <h2 id="queue-title">Server is full</h2>
+          <h2 id="queue-title">Server is full</h2>
 
-                <div id="queue-position" class="queue-info"></div>
+          <div id="queue-position" class="queue-info"></div>
 
-                <div id="queue-eta" class="queue-info"></div>
+          <div id="queue-eta" class="queue-info"></div>
 
-                <button id="diconeect-from-queue" class="queue-button">
-                  Disconnect from que
-                </button>
-
-            </div>
+          <button id="diconeect-from-queue" class="queue-button">
+            Disconnect from que
+          </button>
 
         </div>
+
+      </div>
 
     </div>
 

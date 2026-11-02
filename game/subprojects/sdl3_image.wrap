@@ -8,6 +8,7 @@ patch_url = https://wrapdb.mesonbuild.com/v2/sdl3_image_3.2.4-1/get_patch
 patch_hash = c4961a7d6cf7e3e291fc631b81cab25987648516b5a984e2ba7cc730fddd6804
 source_fallback_url = https://github.com/mesonbuild/wrapdb/releases/download/sdl3_image_3.2.4-1/SDL3_image-3.2.4.tar.gz
 wrapdb_version = 3.2.4-1
+diff_files = sdl3_image-add-img-c.patch
 
 [provide]
 sdl3_image = sdl3_image_dep

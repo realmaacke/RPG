@@ -1,6 +1,6 @@
-
 #include "src/Server/Server.hpp"
 #include <cstdlib>
+
 int main(int, char**) {
     Server server;
 
@@ -9,6 +9,6 @@ int main(int, char**) {
         return 1;
     }
 
-    server.onEvent();
-
+    server.runServer();
+    return 0;
 }
